@@ -1,20 +1,125 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-toolbar>
+  <ion-title>Setup Donation</ion-title>
+  <ion-buttons slot="primary">
+    <ion-button (click)="logout()">
+      <ion-icon slot="icon-only" name="power-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+<ion-content padding class="ion-main">      
+  <form [formGroup]="todo" (ngSubmit)="logForm()">
+    <ion-item-divider>
+      <ion-label>
+        Donation Details
+      </ion-label>
+    </ion-item-divider>
+  
+    <!-- <ion-card>  
+    <ion-card-content> -->
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Type</ion-label>
+              <ion-input clearInput autocapitalize = "on" formControlName="inputType" autofocus="true" #typeInput placeholder="Food, Medical, etc;"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>  
+              <ion-label position="floating">Quantity</ion-label>
+              <ion-input type="number" value="00" formControlName="inputQty"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    <!-- </ion-card-content>
+  </ion-card>   -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+<!-- <ion-card>
+  <ion-card-content> -->
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input clearInput formControlName="inputDescr"></ion-input>
+    </ion-item>
+  <!-- </ion-card-content>  
+</ion-card> -->
+
+<ion-item-divider>
+  <ion-label>
+    Contact Info
+  </ion-label>
+</ion-item-divider>
+
+<!-- <ion-card> -->
+  <!-- <ion-card-content> -->
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Mobile Number</ion-label>
+            <ion-input clearInput formControlName="inputMobile" placeholder="073 123 4567"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>  
+            <ion-label position="floating">Email Address</ion-label>
+            <ion-input clearInput formControlName="inputEmail" placeholder="joe@email.com"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  <!-- </ion-card-content> -->
+<!-- </ion-card> -->
+
+<ion-item-divider>
+  <ion-label>
+    Additional Info
+  </ion-label>
+</ion-item-divider>
+
+<!-- <ion-card>
+<ion-card-content> -->
+<!-- Textarea in an item with a placeholder -->
+<ion-item>
+  <ion-textarea formControlName="inputAddInfo" placeholder="Enter any additional information here..."></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-checkbox color="danger" checked formControlName="inputLocation" slot="start" (ionChange)="checkLocation()"></ion-checkbox>
+  <ion-label class="check-location">Use my current location</ion-label>
+</ion-item>
+<!-- </ion-card-content>
+</ion-card> -->
+
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-button color="success" expand="block" type="submit" [disabled]="!todo.valid">
+        <ion-icon slot="end" name="exit-outline"></ion-icon>Submit</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row style="height: 5px"></ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-button color="danger" expand="block" (click)="clearForm()">
+        <ion-icon slot="end" name="refresh-outline"></ion-icon>Cancel</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+      <ion-fab-button (click)="clearForm()">
+          <ion-icon name="refresh-outline"></ion-icon>
+      </ion-fab-button>
+</ion-fab>
+
+<ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="clearForm()">
+        <ion-icon name="refresh-outline"></ion-icon>
+    </ion-fab-button>
+</ion-fab> -->
+
+</form>
+</ion-content> 

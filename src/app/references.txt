@@ -1,0 +1,59 @@
+https://www.freecodecamp.org/news/creating-a-crud-to-do-app-using-ionic-4/
+
+https://ampersandacademy.com/tutorials/ionic-framework-4/ionic-4-get-current-location-using-geolocation-plugin
+
+https://ionicframework.com/docs/v3/intro/deploying/
+
+https://www.freakyjolly.com/ionic-4-show-native-like-toast-messages-in-ionic-application-in-2-steps-without-any-plugin/
+
+user: absolutesportsfan@gmail.com
+password: pass1234
+
+Production Builds
+To run or build your app for production, run
+
+ionic cordova run android --prod --release
+# or
+ionic cordova build android --prod --release
+
+ionic serve --lab
+
+https://medium.com/@charinin/setting-java-home-environment-variable-in-ubuntu-e355c80e5b6c
+https://askubuntu.com/questions/459900/how-to-find-my-current-java-home-in-ubuntu
+https://stackoverflow.com/questions/53365643/windows-subsystem-for-linux-not-recognizing-java-home-environmental-variable
+
+
+Form Validation:
+https://www.positronx.io/ionic-form-validation-tutorial/
+
+Ionic Push Notifications:
+https://www.positronx.io/ionic-firebase-fcm-push-notification-tutorial-with-example/
+
+
+ANDROID_HOME
+/Users/AdaptIT210/AppData/Local/Android/Sdk
+
+export ANDROID_HOME="/mnt/c/Users/AdaptIT210/AppData/Local/Android/Sdk"
+
+
+Firebase config:
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDwljGz8ZCnkeD4fZ1LvTJbE703Oo_YSYk",
+    authDomain: "community-a5320.firebaseapp.com",
+    databaseURL: "https://community-a5320.firebaseio.com",
+    projectId: "community-a5320",
+    storageBucket: "community-a5320.appspot.com",
+    messagingSenderId: "656847969958",
+    appId: "1:656847969958:web:54429f99c2614356ea5e67"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>

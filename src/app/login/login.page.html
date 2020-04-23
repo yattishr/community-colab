@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="loginForm" (ngSubmit)="loginUser()" novalidate>
+    <ion-item>
+      <ion-input clearInput formControlName="email" type="email" placeholder="Email" [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid  && loginForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
+    <ion-item>
+      <ion-input clearInput formControlName="password" type="password" placeholder="Password" [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid  && loginForm.controls.password.dirty">
+      <p>Your password must be more than 6 characters long</p>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col style="text-align: center">
+          <ion-button center-all type="submit" [disabled]="!loginForm.valid">Login</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+          <ion-col class="ion-align-self-start">
+              <ion-button block clear size="small" (click)="createAccount()"><ion-icon name="arrow-forward-circle"></ion-icon>
+                Create a new account
+              </ion-button>            
+          </ion-col>
+
+          <ion-col class="ion-align-self-end">
+            <ion-button block clear size="small" (click)="resetPwd()">
+                I forgot my password
+              </ion-button>          
+          </ion-col>
+
+      </ion-row>
+    </ion-grid>
+</form>
+</ion-content>

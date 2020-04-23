@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="signupForm" (ngSubmit)="signupUser()" novalidate>
+    <ion-item>
+      <ion-input formControlName="firstName" type="text" placeholder="First Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input formControlName="lastName" type="text" placeholder="Last Name"></ion-input>
+    </ion-item>  
+    <ion-item>
+      <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input formControlName="retype" type="password" placeholder="Confirm Password"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col style="text-align: center">
+          <ion-button center-all size = "small" type="submit" [disabled]="!signupForm.valid">Create an Account</ion-button>
+        </ion-col>
+
+        <ion-col style="text-align: center">
+            <ion-button center-all size = "small" block clear (click)="loginUser()"><ion-icon name="arrow-forward-circle"></ion-icon>
+                back to Login
+            </ion-button>  
+        </ion-col>        
+
+      </ion-row>
+    </ion-grid>
+  </form>  
+
+</ion-content>
