@@ -48,7 +48,7 @@ export class HomePage {
       console.log('Platform ready, checking device location...');
       
       // Platform now ready, execute any required native code
-      this.checkLocation();
+      // this.checkLocation();
 
       // display toast controller
       this.presentToast("Welcome to community collaboration!");
@@ -68,13 +68,11 @@ export class HomePage {
       console.log("Logging task to console...");
       console.log(task);
 
-      if(this.todo.value['inputLocation']) {
-        console.log("Use my current location selected...");
-        this.getLocation();
-      }
+      // check if user selected "Use Location"
+      this.checkLocation();      
     }
     this.showAlert(); // show info alert to user
-    this.clearForm(); // clear the form
+    // this.clearForm(); // this piece of code doesn't work. need to re-look.
   }
 
 
@@ -103,7 +101,6 @@ export class HomePage {
             console.log('Displaying geo-location information...', resp);   
             this.taskList.push(resp);
             console.log('Displaying all gathered information...', this.taskList);
-            this.showInfoAlert("Geo-Location", "Retrieving Co-ordinates", "Latitude is:" + resp.coords['latitude']);
             },er=>{
               alert('Cannot retrieve Location')
             }).catch((error) => {
@@ -150,9 +147,12 @@ export class HomePage {
   // clear the form after submission. still need to rework this piece of code
   clearForm() {
     console.log("Clearing form...");
-    this.todo.reset();
+    this.todo.value['inputType'] = "";
     this.todo.value['inputQty'] = "00";
-    this.todo.value['inputLocation'] = "True";
+    this.todo.value['inputDescr'] = "";
+    this.todo.value['inputMobile'] = "";
+    this.todo.value['inputEmail'] = "";
+    this.todo.value['inputAddInfo'] = "";    
   }
 
 }
