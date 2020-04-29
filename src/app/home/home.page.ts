@@ -1,4 +1,5 @@
-import { Component, ViewChild, NgModule } from '@angular/core';
+// import { Component, ViewChild, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, Platform, LoadingController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -11,6 +12,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+
 // import routing
 import { LoginPage } from '../login/login.page';
 
@@ -21,8 +25,11 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
   taskList = [];
-  latVal: any; // store longitude & latitude into variable
+  locationVal: any; // store longitude & latitude into variable
   coordinates = [];
+  userId: any; // stores the user name of currently logged in user
+  fireStoreList: any; // object used to write into Firestore
+  currentUser: any;
 
   public todo : FormGroup;
 
@@ -56,6 +63,19 @@ export class HomePage {
     });
 
   }
+
+  ngOnInit() {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+          this.userId = user.uid;          
+          // this.fireStoreTaskList = this.firestore.doc<any>('users/' + this.userId).collection('tasks').valueChanges();
+          this.fireStoreList = this.firestore.doc<any>('users/' + this.userId).collection('tasks');
+          this.currentUser = user.displayName; // grab the current users name
+          console.log("Current user is: ", this.currentUser);
+      }
+    });
+  }    
+  
   
   // log our Donations into the database
   logForm() {
@@ -63,13 +83,30 @@ export class HomePage {
     console.log(this.todo.value['inputType']);
     
     if (this.todo.value['inputType'].length > 0) {
+      // let task = this.todo.value;
+      // this.taskList.push(task);
+      // console.log("Logging task to console...");
+      // console.log(task);
+
       let task = this.todo.value;
-      this.taskList.push(task);
-      console.log("Logging task to console...");
-      console.log(task);
+      let id = this.firestore.createId();
+      let created = firebase.firestore.FieldValue.serverTimestamp();
 
       // check if user selected "Use Location"
-      this.checkLocation();      
+      this.checkLocation();  
+
+      // push form object into list
+      this.taskList.push(task);
+      console.log("Logging task to console...");
+      console.log(task);      
+
+      // push data into fireStore db
+      this.fireStoreList.doc(id).set({
+        id: id,
+        created: created,
+        owner: this.currentUser,
+        taskName: task
+      });            
     }
     this.showAlert(); // show info alert to user
     // this.clearForm(); // this piece of code doesn't work. need to re-look.
