@@ -25,10 +25,11 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
   taskList = [];
-  locationVal: any; // store longitude & latitude into variable
+  public locationVal: any; // store longitude & latitude into variable
   coordinates = [];
   userId: any; // stores the user name of currently logged in user
   fireStoreList: any; // object used to write into Firestore
+  geoLocationList: any; // object to store geo-locaation data
   currentUser: any;
 
   public todo : FormGroup;
@@ -70,6 +71,7 @@ export class HomePage {
           this.userId = user.uid;          
           // this.fireStoreTaskList = this.firestore.doc<any>('users/' + this.userId).collection('tasks').valueChanges();
           this.fireStoreList = this.firestore.doc<any>('users/' + this.userId).collection('tasks');
+          this.geoLocationList = this.firestore.doc<any>('users/' + this.userId).collection('gelocation');
           this.currentUser = user.displayName; // grab the current users name
           console.log("Current user is: ", this.currentUser);
       }
@@ -83,10 +85,6 @@ export class HomePage {
     console.log(this.todo.value['inputType']);
     
     if (this.todo.value['inputType'].length > 0) {
-      // let task = this.todo.value;
-      // this.taskList.push(task);
-      // console.log("Logging task to console...");
-      // console.log(task);
 
       let task = this.todo.value;
       let id = this.firestore.createId();
@@ -100,6 +98,10 @@ export class HomePage {
       console.log("Logging task to console...");
       console.log(task);      
 
+      // display location information
+      console.log("Displaying geo-location data...", this.locationVal);
+      
+
       // push data into fireStore db
       this.fireStoreList.doc(id).set({
         id: id,
@@ -107,6 +109,19 @@ export class HomePage {
         owner: this.currentUser,
         taskName: task
       });            
+
+      
+      if (this.locationVal != "undefined") {
+        // push geo-location data into fireStore db
+        this.geoLocationList.doc(id).set({
+          id: id,
+          created: created,
+          owner: this.currentUser,
+          geoPos: this.locationVal
+        });    
+      }
+        
+
     }
     this.showAlert(); // show info alert to user
     // this.clearForm(); // this piece of code doesn't work. need to re-look.
@@ -137,6 +152,7 @@ export class HomePage {
             console.log('Getting co-ordinates...', resp.coords['latitude']);    
             console.log('Displaying geo-location information...', resp);   
             this.taskList.push(resp);
+            this.locationVal = resp;
             console.log('Displaying all gathered information...', this.taskList);
             },er=>{
               alert('Cannot retrieve Location')
