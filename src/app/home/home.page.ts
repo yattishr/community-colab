@@ -91,7 +91,15 @@ export class HomePage {
       let created = firebase.firestore.FieldValue.serverTimestamp();
 
       // check if user selected "Use Location"
-      this.checkLocation();  
+      // this.checkLocation();  
+
+      // check if user selected "Use Location"
+      if (this.todo.value['inputLocation']) {
+        console.log("Use my current location turned on...");
+        this.getLocation();                  
+      } else {
+        console.log("Use my current location turned off...");
+      }      
 
       // push form object into list
       this.taskList.push(task);
