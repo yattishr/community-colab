@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 
-import { AlertController, Platform, LoadingController  } from '@ionic/angular';
+import { AlertController, Platform, LoadingController, ToastController  } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 // import Email validator page
@@ -33,7 +33,8 @@ export class LoginPage {
               public afAuth: AngularFireAuth, 
               public alertCtrl: AlertController, 
               public firestore: AngularFirestore, 
-              private router: Router) {
+              private router: Router,
+              public toastController: ToastController) {
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
         password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
@@ -45,7 +46,8 @@ export class LoginPage {
 
   loginUser() {
     this.afAuth.auth.signInWithEmailAndPassword(this.loginForm.value['email'], this.loginForm.value['password']).then(() => {
-      this.router.navigateByUrl('/home')
+      this.router.navigateByUrl('/home');
+      this.presentToast("Welcome to community collaboration!");
     }, (error) => {
       this.presentLoading('Logging in please wait...');
       this.showInfoAlert("Log in", "Password Information", error.message);
@@ -87,6 +89,16 @@ export class LoginPage {
 
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
-  }   
+  }
+  
+  // display toast controller
+  async presentToast(toastMessage) {
+    const toast = await this.toastController.create({
+      message: toastMessage,
+      position: 'top',
+      duration: 2000
+    });
+    toast.present();
+  }  
    
 }

@@ -58,7 +58,8 @@ export class SignupPage implements OnInit {
           userDoc.set({
             firstName: this.signupForm.value.firstName,
             lastName: this.signupForm.value.lastName,
-            email: this.signupForm.value.email
+            email: this.signupForm.value.email,
+            ownerName: this.signupForm.value.firstName,
           });
           // this.navCtrl.goRoot(HomePage);
           // this.navCtrl.navigateRoot('HomePage');          

@@ -7,6 +7,14 @@
 <ion-content>
 
   <form [formGroup]="signupForm" (ngSubmit)="signupUser()" novalidate>
+    <ion-card>
+      <ion-item>
+        <ion-icon name="pin" slot="start"></ion-icon>
+        <ion-label>Signup</ion-label>
+        <ion-button fill="outline" shape = "round" slot="end" type="submit" [disabled]="!signupForm.valid">Create Account</ion-button>
+      </ion-item>
+    
+      <ion-card-content>
     <ion-item>
       <ion-input formControlName="firstName" type="text" placeholder="First Name"></ion-input>
     </ion-item>
@@ -27,18 +35,24 @@
     </ion-item>
     <ion-grid>
       <ion-row>
-        <ion-col style="text-align: center">
+        <!-- <ion-col style="text-align: center">
           <ion-button center-all size = "small" type="submit" [disabled]="!signupForm.valid">Create an Account</ion-button>
-        </ion-col>
+        </ion-col> -->
 
         <ion-col style="text-align: center">
-            <ion-button center-all size = "small" block clear (click)="loginUser()"><ion-icon name="arrow-forward-circle"></ion-icon>
+          <ion-button fill=“clear” size="small" expand="full"  (click)="loginUser()"><ion-icon name="arrow-undo-circle-outline" slot="end"></ion-icon>
                 back to Login
             </ion-button>  
         </ion-col>        
 
       </ion-row>
-    </ion-grid>
+    </ion-grid>    
+
+      </ion-card-content>
+    </ion-card>
+
+
+
   </form>  
 
 </ion-content>
