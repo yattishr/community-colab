@@ -25,12 +25,13 @@ import { LoginPage } from '../login/login.page';
 })
 export class HomePage {
   taskList = [];
-  public locationVal: any; // store longitude & latitude into variable
   coordinates = [];
   userId: any; // stores the user name of currently logged in user
   fireStoreList: any; // object used to write into Firestore
   geoLocationList: any; // object to store geo-locaation data
   currentUser: any;
+  public longVal: any;
+  public latVal: any;
 
   public todo : FormGroup;
 
@@ -71,7 +72,7 @@ export class HomePage {
           this.userId = user.uid;          
           // this.fireStoreTaskList = this.firestore.doc<any>('users/' + this.userId).collection('tasks').valueChanges();
           this.fireStoreList = this.firestore.doc<any>('users/' + this.userId).collection('tasks');
-          this.geoLocationList = this.firestore.doc<any>('users/' + this.userId).collection('gelocation');
+          // this.geoLocationList = this.firestore.doc<any>('users/' + this.userId).collection('gelocation');
           this.currentUser = user.displayName; // grab the current users name
           console.log("Current user is: ", this.currentUser);
       }
@@ -81,8 +82,10 @@ export class HomePage {
   
   // log our Donations into the database
   logForm() {
-    console.log(this.todo.value);
-    console.log(this.todo.value['inputType']);
+    this.longVal = 0;
+    this.latVal = 0;
+    // console.log(this.todo.value);
+    // console.log(this.todo.value['inputType']);
     
     if (this.todo.value['inputType'].length > 0) {
 
@@ -91,45 +94,47 @@ export class HomePage {
       let created = firebase.firestore.FieldValue.serverTimestamp();
 
       // check if user selected "Use Location"
-      // this.checkLocation();  
-
-      // check if user selected "Use Location"
       if (this.todo.value['inputLocation']) {
         console.log("Use my current location turned on...");
-        this.getLocation();                  
+        // this.getLocation(); // removed this as geo-Location code is now handled below.                 
+        
+        // geo-Location code start.
+        this.geolocation.getCurrentPosition(
+          {maximumAge: 1000, timeout: 5000,
+           enableHighAccuracy: true }
+          ).then((resp) => {
+                this.longVal = resp.coords['longitude'];
+                this.latVal = resp.coords['latitude'];
+                // this.locationVal = JSON.stringify(resp); // this value no longer declared
+                console.log('Displaying longitude from getLocation()...', this.longVal);
+                },er=>{
+                  alert('Cannot retrieve Location')
+                }).catch((error) => {
+                alert('Error getting location - ' + JSON.stringify(error))
+                });        
+        // geo-Location code end.
+
       } else {
         console.log("Use my current location turned off...");
       }      
 
       // push form object into list
       this.taskList.push(task);
-      console.log("Logging task to console...");
-      console.log(task);      
+      console.log("Logging task to console...", task);
 
       // display location information
-      console.log("Displaying geo-location data...", this.locationVal);
+      console.log("Displaying geo-location data from logForm()...", this.longVal);
       
 
       // push data into fireStore db
       this.fireStoreList.doc(id).set({
         id: id,
         created: created,
+        longitude: this.longVal,
+        latitude: this.latVal,
         owner: this.currentUser,
         taskName: task
       });            
-
-      
-      if (this.locationVal != "undefined") {
-        // push geo-location data into fireStore db
-        this.geoLocationList.doc(id).set({
-          id: id,
-          created: created,
-          owner: this.currentUser,
-          geoPos: this.locationVal
-        });    
-      }
-        
-
     }
     this.showAlert(); // show info alert to user
     // this.clearForm(); // this piece of code doesn't work. need to re-look.
@@ -157,11 +162,13 @@ export class HomePage {
       {maximumAge: 1000, timeout: 5000,
        enableHighAccuracy: true }
       ).then((resp) => {
-            console.log('Getting co-ordinates...', resp.coords['latitude']);    
-            console.log('Displaying geo-location information...', resp);   
-            this.taskList.push(resp);
-            this.locationVal = resp;
-            console.log('Displaying all gathered information...', this.taskList);
+            // console.log('Getting co-ordinates...', resp.coords['latitude']);    
+            // console.log('Displaying geo-location information...', resp);   
+            // this.taskList.push(resp); // commenting this out, does not work
+            this.longVal = resp.coords['longitude'];
+            this.latVal = resp.coords['latitude'];
+            // this.locationVal = JSON.stringify(resp);
+            console.log('Displaying geo-location information from getLocation()...', this.longVal);
             },er=>{
               alert('Cannot retrieve Location')
             }).catch((error) => {

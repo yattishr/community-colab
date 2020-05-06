@@ -82,18 +82,15 @@
 
 
 <ion-grid>
-  <ion-row>
-    <ion-col>
-      <ion-button color="success" shape = "round" expand="block" type="submit" [disabled]="!todo.valid">
-        <ion-icon slot="end" name="exit-outline"></ion-icon>Submit</ion-button>
-    </ion-col>
+  <ion-row>    
+        <ion-button color="success" shape = "round" expand="block" type="submit" [disabled]="!todo.valid">
+            <!-- <ion-button fill="outline" shape = "round" slot="end" type="submit" [disabled]="!todo.valid"> -->
+            <ion-icon slot="end" name="exit-outline"></ion-icon>Submit</ion-button>          
   </ion-row>
   <ion-row style="height: 5px"></ion-row>
-  <ion-row>
-    <ion-col>
+  <ion-row>    
       <ion-button color="danger" shape = "round" expand="block" (click)="clearForm()">
         <ion-icon slot="end" name="refresh-outline"></ion-icon>Cancel</ion-button>
-    </ion-col>
   </ion-row>
 </ion-grid>
 
